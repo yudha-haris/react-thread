@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import ForumInput from "../components/ForumInput";
 import ForumList from "../components/ForumList";
 import NavigationBar from "../components/NavigationBar";
@@ -34,7 +34,9 @@ export default function Home() {
     if (auth) {
       dispatch(asyncToggleLikeThread({ threadId, isLiked }));
     } else {
-      router.push("/auth/login");
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
@@ -42,7 +44,9 @@ export default function Home() {
     if (auth) {
       dispatch(asyncAddThread({ title, body: content }));
     } else {
-      router.push("/auth/login");
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
@@ -61,10 +65,17 @@ export default function Home() {
       <div className="bg-slate-100 min-h-screen pt-16">
         <header>
           <NavigationBar
-            logout={onSignOut}
+            authAction={
+              auth
+                ? onSignOut
+                : () => {
+                    router.push("/auth/login");
+                  }
+            }
             onBackHome={() => {
               router.push("/");
             }}
+            authType={auth ? "Logout" : "Login"}
           />
           {/* <Loading /> */}
         </header>
@@ -77,8 +88,6 @@ export default function Home() {
           />
         </main>
       </div>
-
-      <ToastContainer />
     </>
   );
 }

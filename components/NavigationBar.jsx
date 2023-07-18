@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 
-function NavigationBar({ logout, onBackHome }) {
+function NavigationBar({ authAction, onBackHome, authType }) {
   return (
     <div className="fixed bg-white p-3 top-0 z-10 w-full">
       <div className="flex items-center ">
@@ -20,13 +20,10 @@ function NavigationBar({ logout, onBackHome }) {
 
         <button
           type="button"
-          onClick={logout}
-          className="ml-auto border-2 border-purple-600 rounded-md px-2 font-semibold text-purple-600 text-lg"
+          onClick={authAction}
+          className="ml-auto border-2 border-purple-600 rounded-md px-4 font-semibold text-purple-600 text-lg"
         >
-          <div className="flex items-center">
-            <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2" />
-            <p>Logout</p>
-          </div>
+          <p>{authType}</p>
         </button>
       </div>
     </div>
@@ -34,8 +31,9 @@ function NavigationBar({ logout, onBackHome }) {
 }
 
 NavigationBar.propTypes = {
-  logout: PropTypes.func.isRequired,
+  authAction: PropTypes.func.isRequired,
   onBackHome: PropTypes.func.isRequired,
+  authType: PropTypes.string.isRequired,
 };
 
 export default NavigationBar;
