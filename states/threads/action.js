@@ -1,11 +1,11 @@
-import { hideLoading, showLoading } from 'react-redux-loading-bar';
-import { toast } from 'react-toastify';
-import api from '../../utils/api';
+import { hideLoading, showLoading } from "react-redux-loading-bar";
+import { toast } from "react-toastify";
+import api from "../../utils/api";
 
 const ActionType = {
-  RECEIVE_THREAD: 'RECEIVE_THREAD',
-  ADD_THREAD: 'ADD_THREAD',
-  TOGGLE_LIKE_THREAD: 'TOGGLE_LIKE_THREAD',
+  RECEIVE_THREAD: "RECEIVE_THREAD",
+  ADD_THREAD: "ADD_THREAD",
+  TOGGLE_LIKE_THREAD: "TOGGLE_LIKE_THREAD",
 };
 
 function receiveThreadsActionCreator(threads) {
@@ -39,6 +39,12 @@ function toggleLikeThreadActionCreator({ threadId, userId }) {
 function asyncToggleLikeThread({ threadId, isLiked }) {
   return async (dispatch, getState) => {
     const { auth } = getState();
+    if (!auth) {
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     dispatch(toggleLikeThreadActionCreator({ threadId, userId: auth.id }));
 
     try {
@@ -53,7 +59,14 @@ function asyncToggleLikeThread({ threadId, isLiked }) {
 }
 
 function asyncAddThread({ title, body }) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { auth } = getState();
+    if (!auth) {
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     dispatch(showLoading());
 
     try {

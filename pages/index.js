@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ForumInput from "../components/ForumInput";
 import ForumList from "../components/ForumList";
 import NavigationBar from "../components/NavigationBar";
@@ -9,6 +9,10 @@ import { useRouter } from "next/router";
 import { asyncPreloadProcess } from "../states/preload/action";
 import { asyncUnsetAuthUser } from "../states/auth/action";
 import asyncPopulateThreads from "../states/shared/action";
+import {
+  asyncToggleLikeThread,
+  asyncAddThread,
+} from "../states/threads/action";
 
 export default function Home() {
   const {
@@ -31,23 +35,11 @@ export default function Home() {
   };
 
   const onLike = ({ threadId, isLiked }) => {
-    if (auth) {
-      dispatch(asyncToggleLikeThread({ threadId, isLiked }));
-    } else {
-      toast.error("Anda harus login dulu", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
+    dispatch(asyncToggleLikeThread({ threadId, isLiked }));
   };
 
   const onCreatePost = ({ title, content }) => {
-    if (auth) {
-      dispatch(asyncAddThread({ title, body: content }));
-    } else {
-      toast.error("Anda harus login dulu", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
+    dispatch(asyncAddThread({ title, body: content }));
   };
 
   const threadList = threads.map((thread) => ({
@@ -61,33 +53,31 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className="bg-slate-100 min-h-screen pt-16">
-        <header>
-          <NavigationBar
-            authAction={
-              auth
-                ? onSignOut
-                : () => {
-                    router.push("/auth/login");
-                  }
-            }
-            onBackHome={() => {
-              router.push("/");
-            }}
-            authType={auth ? "Logout" : "Login"}
-          />
-          {/* <Loading /> */}
-        </header>
-        <main>
-          <ForumInput post={onCreatePost} />
-          <ForumList
-            threads={threadList}
-            like={onLike}
-            userId={auth === null ? "" : auth.id}
-          />
-        </main>
-      </div>
-    </>
+    <div className="bg-slate-100 min-h-screen pt-16">
+      <header>
+        <NavigationBar
+          authAction={
+            auth
+              ? onSignOut
+              : () => {
+                  router.push("/auth/login");
+                }
+          }
+          onBackHome={() => {
+            router.push("/");
+          }}
+          authType={auth ? "Logout" : "Login"}
+        />
+        <Loading />
+      </header>
+      <main>
+        <ForumInput post={onCreatePost} />
+        <ForumList
+          threads={threadList}
+          like={onLike}
+          userId={auth === null ? "" : auth.id}
+        />
+      </main>
+    </div>
   );
 }

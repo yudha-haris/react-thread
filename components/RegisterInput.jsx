@@ -43,7 +43,7 @@ function RegisterInput({ register }) {
         </button>
         <div className="flex items-center w-full justify-center mt-2">
           <p className="mr-2">Sudah punya akun? </p>
-          <Link href="/" className="text-blue-600">
+          <Link href="/auth/login" className="text-blue-600">
             Login
           </Link>
         </div>

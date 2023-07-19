@@ -19,12 +19,12 @@ function postedAt(date) {
   if (diffSeconds > 0) {
     return `${diffSeconds} s`;
   }
-  return 'just now';
+  return "just now";
 }
 
 function htmlParser(htmlString) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlString, 'text/html');
+  const doc = parser.parseFromString(htmlString, "text/html");
   return doc.body.innerText;
 }
 

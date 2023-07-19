@@ -1,13 +1,13 @@
-import { hideLoading, showLoading } from 'react-redux-loading-bar';
-import { toast } from 'react-toastify';
-import api from '../../utils/api';
+import { hideLoading, showLoading } from "react-redux-loading-bar";
+import { toast } from "react-toastify";
+import api from "../../utils/api";
 
 const ActionType = {
-  RECEIVE_THREAD_DETAIL: 'RECEIVE_THREAD_DETAIL',
-  CLEAR_THREAD_DETAIL: 'CLEAR_THREAD_DETAIL',
-  TOGGLE_LIKE_THREAD_DETAIL: 'TOGGLE_LIKE_THREAD_DETAIL',
-  TOGGLE_DISLIKE_THREAD_DETAIL: 'TOGGLE_DISLIKE_THREAD_DETAIL',
-  ADD_COMMENT: 'ADD_COMMENT',
+  RECEIVE_THREAD_DETAIL: "RECEIVE_THREAD_DETAIL",
+  CLEAR_THREAD_DETAIL: "CLEAR_THREAD_DETAIL",
+  TOGGLE_LIKE_THREAD_DETAIL: "TOGGLE_LIKE_THREAD_DETAIL",
+  TOGGLE_DISLIKE_THREAD_DETAIL: "TOGGLE_DISLIKE_THREAD_DETAIL",
+  ADD_COMMENT: "ADD_COMMENT",
 };
 
 function receiveThreadDetailActionCreator(thread) {
@@ -54,7 +54,13 @@ function addCommentActionCreator(comment) {
 
 function asyncAddComment(content) {
   return async (dispatch, getState) => {
-    const { thread } = getState();
+    const { auth, thread } = getState();
+    if (!auth) {
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     dispatch(showLoading());
 
     try {
@@ -70,26 +76,29 @@ function asyncAddComment(content) {
   };
 }
 
-function asyncReceiveThreadDetail(threadId) {
+function asyncReceiveThreadDetail(thread) {
   return async (dispatch) => {
     dispatch(clearThreadDetailActionCreator());
-    dispatch(showLoading());
 
     try {
-      const detailThread = await api.getThreadDetail(threadId);
-      dispatch(receiveThreadDetailActionCreator(detailThread));
+      dispatch(receiveThreadDetailActionCreator(thread));
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    dispatch(hideLoading());
   };
 }
 
 function asyncToggleLikeThreadDetail(isLiked) {
   return async (dispatch, getState) => {
     const { auth, thread } = getState();
+    if (!auth) {
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     dispatch(toggleLikeThreadDetail(auth.id));
 
     try {
@@ -106,8 +115,13 @@ function asyncToggleLikeThreadDetail(isLiked) {
 function asyncToggleDislikeThreadDetail(isDisliked) {
   return async (dispatch, getState) => {
     const { auth, thread } = getState();
+    if (!auth) {
+      toast.error("Anda harus login dulu", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     dispatch(toggleDislikeThreadDetail(auth.id));
-
     try {
       await api.toggleDislikeThread({ id: thread.id, isDisliked });
     } catch (error) {

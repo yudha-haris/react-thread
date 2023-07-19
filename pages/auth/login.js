@@ -22,7 +22,12 @@ export default function Login() {
   return (
     <div className="bg-slate-100 min-h-screen">
       <main>
-        <LoginInput login={onLogin} />
+        <LoginInput
+          login={onLogin}
+          onTitleTap={() => {
+            router.push("/");
+          }}
+        />
       </main>
     </div>
   );

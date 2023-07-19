@@ -14,7 +14,7 @@ function ForumItem({ thread, like, userId }) {
 
   const onDetailNavigate = (event) => {
     event.stopPropagation();
-    navigate(`/threads/${thread.id}`);
+    navigate.push(`/threads/${thread.id}`);
   };
 
   const sanitizedBody = thread.body.replace(/<\/?div>|<br>|&nbsp;/g, " ");
