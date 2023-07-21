@@ -5,7 +5,7 @@ function preloadReducer(isPreload = true, action = {}) {
     case ActionType.SET_IS_PRELOAD:
       return action.payload.isPreload;
     default:
-      return isPreload;
+      return false;
   }
 }
 
