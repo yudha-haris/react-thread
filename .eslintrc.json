@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "cypress/global": true
     },
     "extends": "airbnb",
     "parserOptions": {
@@ -10,5 +11,8 @@
         "sourceType": "module"
     },
     "rules": {
-    }
+    },
+    "plugins": [
+        "cypress"
+    ]
 }

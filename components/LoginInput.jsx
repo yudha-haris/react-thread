@@ -4,20 +4,14 @@ import PropTypes from "prop-types";
 import TextInputField from "./TextInputField";
 import useInput from "../hooks/useInput";
 
-function LoginInput({ login, onTitleTap }) {
+function LoginInput({ login }) {
   const [email, onEmailChange] = useInput("");
   const [password, onPasswordChange] = useInput("");
 
   return (
     <div className="flex items-center min-h-screen bg-purple-600">
       <div className="p-8 max-w-2xl w-4/5 mx-auto bg-white rounded-lg">
-        <button
-          type="button"
-          onClick={onTitleTap}
-          className="font-bold text-3xl text-center w-full"
-        >
-          React Forum
-        </button>
+        <h1 className="font-bold text-3xl text-center w-full">React Forum</h1>
         <TextInputField
           placeholder="Masukkan email"
           type="text"
@@ -50,7 +44,6 @@ function LoginInput({ login, onTitleTap }) {
 
 LoginInput.propTypes = {
   login: PropTypes.func.isRequired,
-  onTitleTap: PropTypes.func.isRequired,
 };
 
 export default LoginInput;
