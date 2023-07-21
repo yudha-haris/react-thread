@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
-import { toast } from "react-toastify";
-import ForumInput from "../components/ForumInput";
-import ForumList from "../components/ForumList";
-import NavigationBar from "../components/NavigationBar";
-import Loading from "../components/Loading";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { asyncPreloadProcess } from "../states/preload/action";
-import { asyncUnsetAuthUser } from "../states/auth/action";
-import asyncPopulateThreads from "../states/shared/action";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import ForumInput from '../components/ForumInput';
+import ForumList from '../components/ForumList';
+import NavigationBar from '../components/NavigationBar';
+import Loading from '../components/Loading';
+import { asyncPreloadProcess } from '../states/preload/action';
+import { asyncUnsetAuthUser } from '../states/auth/action';
+import asyncPopulateThreads from '../states/shared/action';
 import {
   asyncToggleLikeThread,
   asyncAddThread,
-} from "../states/threads/action";
+} from '../states/threads/action';
 
 export default function Home() {
   const {
@@ -60,13 +59,13 @@ export default function Home() {
             auth
               ? onSignOut
               : () => {
-                  router.push("/auth/login");
-                }
+                router.push('/auth/login');
+              }
           }
           onBackHome={() => {
-            router.push("/");
+            router.push('/');
           }}
-          authType={auth ? "Logout" : "Login"}
+          authType={auth ? 'Logout' : 'Login'}
         />
         <Loading />
       </header>
@@ -75,7 +74,7 @@ export default function Home() {
         <ForumList
           threads={threadList}
           like={onLike}
-          userId={auth === null ? "" : auth.id}
+          userId={auth === null ? '' : auth.id}
         />
       </main>
     </div>

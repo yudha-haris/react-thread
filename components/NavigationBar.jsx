@@ -1,9 +1,6 @@
-import React from "react";
-import {
-  ChatBubbleBottomCenterIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
-import PropTypes from "prop-types";
+import React from 'react';
+import { ChatBubbleBottomCenterIcon } from '@heroicons/react/24/solid';
+import PropTypes from 'prop-types';
 
 function NavigationBar({ authAction, onBackHome, authType }) {
   return (

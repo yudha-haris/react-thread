@@ -1,20 +1,21 @@
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   asyncAddComment,
   asyncReceiveThreadDetail,
   asyncToggleDislikeThreadDetail,
   asyncToggleLikeThreadDetail,
-} from "../../states/threadDetail/action";
-import CommentInput from "../../components/CommentInput";
-import CommentList from "../../components/CommentList";
-import ForumDetail from "../../components/ForumDetail";
-import NavigationBar from "../../components/NavigationBar";
-import Loading from "../../components/Loading";
-import { asyncUnsetAuthUser } from "../../states/auth/action";
-import { asyncPreloadProcess } from "../../states/preload/action";
-import api from "../../utils/api";
+} from '../../states/threadDetail/action';
+import CommentInput from '../../components/CommentInput';
+import CommentList from '../../components/CommentList';
+import ForumDetail from '../../components/ForumDetail';
+import NavigationBar from '../../components/NavigationBar';
+import Loading from '../../components/Loading';
+import { asyncUnsetAuthUser } from '../../states/auth/action';
+import { asyncPreloadProcess } from '../../states/preload/action';
+import api from '../../utils/api';
+import { threadPropTypes } from '../../utils/propTypes';
 
 export default function Thread({ threadDetail }) {
   const router = useRouter();
@@ -55,13 +56,13 @@ export default function Thread({ threadDetail }) {
             auth
               ? onSignOut
               : () => {
-                  router.push("/auth/login");
-                }
+                router.push('/auth/login');
+              }
           }
           onBackHome={() => {
-            router.push("/");
+            router.push('/');
           }}
-          authType={auth ? "Logout" : "Login"}
+          authType={auth ? 'Logout' : 'Login'}
         />
         <Loading />
       </header>
@@ -72,7 +73,7 @@ export default function Thread({ threadDetail }) {
               like={onLikeThread}
               dislike={onDislikeThread}
               thread={thread}
-              userId={auth ? auth.id : ""}
+              userId={auth ? auth.id : ''}
             />
             <div className="mt-6">
               <CommentInput comment={onAddComment} />
@@ -84,6 +85,10 @@ export default function Thread({ threadDetail }) {
     </div>
   );
 }
+
+Thread.propTypes = {
+  threadDetail: threadPropTypes.isRequired,
+};
 
 export async function getStaticPaths() {
   const response = await api.getAllThread();

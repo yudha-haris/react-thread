@@ -1,13 +1,13 @@
-import React from "react";
-import Link from "next/link";
-import PropTypes from "prop-types";
-import TextInputField from "./TextInputField";
-import useInput from "../hooks/useInput";
+import React from 'react';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
+import TextInputField from './TextInputField';
+import useInput from '../hooks/useInput';
 
 function RegisterInput({ register }) {
-  const [name, onNameChange] = useInput("");
-  const [email, onEmailChange] = useInput("");
-  const [password, onPasswordChange] = useInput("");
+  const [name, onNameChange] = useInput('');
+  const [email, onEmailChange] = useInput('');
+  const [password, onPasswordChange] = useInput('');
 
   return (
     <div className="flex items-center min-h-screen bg-purple-600">

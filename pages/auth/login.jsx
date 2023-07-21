@@ -1,8 +1,8 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import LoginInput from "../../components/LoginInput";
-import { asyncSetAuthUser } from "../../states/auth/action";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import LoginInput from '../../components/LoginInput';
+import { asyncSetAuthUser } from '../../states/auth/action';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -14,9 +14,9 @@ export default function Login() {
         email,
         password,
         onSuccess: () => {
-          router.push("/");
+          router.push('/');
         },
-      })
+      }),
     );
   };
   return (

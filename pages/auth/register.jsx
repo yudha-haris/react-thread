@@ -1,8 +1,8 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { asyncRegisterUser } from "../../states/auth/action";
-import RegisterInput from "../../components/RegisterInput";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { asyncRegisterUser } from '../../states/auth/action';
+import RegisterInput from '../../components/RegisterInput';
 
 export default function Register() {
   const router = useRouter();
@@ -15,9 +15,9 @@ export default function Register() {
         email,
         password,
         onSuccess: () => {
-          router.push("/auth/login");
+          router.push('/auth/login');
         },
-      })
+      }),
     );
   };
 

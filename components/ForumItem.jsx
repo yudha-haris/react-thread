@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   HandThumbUpIcon,
   ChatBubbleBottomCenterIcon,
-} from "@heroicons/react/20/solid";
-import PropTypes from "prop-types";
-import { useRouter } from "next/router";
-import IconButton from "./IconButton";
-import { postedAt } from "../utils";
-import { threadPropTypes } from "../utils/propTypes";
+} from '@heroicons/react/20/solid';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import IconButton from './IconButton';
+import { postedAt } from '../utils';
+import { threadPropTypes } from '../utils/propTypes';
 
 function ForumItem({ thread, like, userId }) {
   const navigate = useRouter();
@@ -17,11 +17,10 @@ function ForumItem({ thread, like, userId }) {
     navigate.push(`/threads/${thread.id}`);
   };
 
-  const sanitizedBody = thread.body.replace(/<\/?div>|<br>|&nbsp;/g, " ");
-  const truncatedBody =
-    sanitizedBody.length > 200
-      ? `${sanitizedBody.slice(0, 200)}...`
-      : sanitizedBody;
+  const sanitizedBody = thread.body.replace(/<\/?div>|<br>|&nbsp;/g, ' ');
+  const truncatedBody = sanitizedBody.length > 200
+    ? `${sanitizedBody.slice(0, 200)}...`
+    : sanitizedBody;
   const isLiked = thread.upVotesBy.includes(userId);
 
   const onLikeClick = (event) => {
@@ -47,7 +46,9 @@ function ForumItem({ thread, like, userId }) {
       <div className="flex items-center mt-4 mb-3">
         <ChatBubbleBottomCenterIcon className="w-4 h-4 text-slate-400" />
         <p className="mx-1 text-slate-500 text-sm">
-          {thread.totalComments} balasan
+          {thread.totalComments}
+          {' '}
+          balasan
         </p>
       </div>
       <div className="flex items-center">
@@ -62,7 +63,7 @@ function ForumItem({ thread, like, userId }) {
           }
           text={
             thread.upVotesBy.length === 0
-              ? "Suka"
+              ? 'Suka'
               : `${thread.upVotesBy.length}`
           }
         />
