@@ -14,19 +14,18 @@ import NavigationBar from '../../components/NavigationBar';
 import Loading from '../../components/Loading';
 import { asyncUnsetAuthUser } from '../../states/auth/action';
 import { asyncPreloadProcess } from '../../states/preload/action';
-import api from '../../utils/api';
-import { threadPropTypes } from '../../utils/propTypes';
 
-export default function Thread({ threadDetail }) {
+export default function Thread() {
   const router = useRouter();
+  const { id } = router.query;
   const dispatch = useDispatch();
 
   const { auth = null, thread } = useSelector((states) => states);
 
   useEffect(() => {
-    dispatch(asyncReceiveThreadDetail(threadDetail));
+    dispatch(asyncReceiveThreadDetail(id));
     dispatch(asyncPreloadProcess());
-  }, [dispatch, threadDetail]);
+  }, [id]);
 
   const onLikeThread = (isLiked) => {
     dispatch(asyncToggleLikeThreadDetail(isLiked));
@@ -84,28 +83,4 @@ export default function Thread({ threadDetail }) {
       </main>
     </div>
   );
-}
-
-Thread.propTypes = {
-  threadDetail: threadPropTypes.isRequired,
-};
-
-export async function getStaticPaths() {
-  const response = await api.getAllThread();
-  const ids = response.map((thread) => thread.id);
-
-  return {
-    paths: ids.map((id) => ({ params: { id } })),
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params }) {
-  const threadDetail = await api.getThreadDetail(params.id);
-
-  return {
-    props: {
-      threadDetail,
-    },
-  };
 }
