@@ -6,25 +6,27 @@
  *  - should dispatch action and call alert correctly when data fetching failed
  */
 
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { hideLoading, showLoading } from "react-redux-loading-bar";
-import api from "../../../utils/api";
+import {
+  afterEach, beforeEach, describe, expect, it, vi,
+} from 'vitest';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import api from '../../../utils/api';
 import {
   setPreloadActionCreator,
   asyncPreloadProcess,
-} from "../../../states/preload/action";
-import { setAuthUserActionCreator } from "../../../states/auth/action";
+} from '../../../states/preload/action';
+import { setAuthUserActionCreator } from '../../../states/auth/action';
 
 const fakeUserResponse = {
-  id: "users-1",
-  name: "John Doe",
-  email: "john@example.com",
-  avatar: "https://generated-image-url.jpg",
+  id: 'users-1',
+  name: 'John Doe',
+  email: 'john@example.com',
+  avatar: 'https://generated-image-url.jpg',
 };
 
-const fakeErrorResponse = new Error("Ups, something went wrong");
+const fakeErrorResponse = new Error('Ups, something went wrong');
 
-describe("asyncPreloadProcess thunk", () => {
+describe('asyncPreloadProcess thunk', () => {
   beforeEach(() => {
     api.getOwnProfileBackup = api.getOwnProfile;
   });
@@ -35,7 +37,7 @@ describe("asyncPreloadProcess thunk", () => {
     delete api.getOwnProfileBackup;
   });
 
-  it("should dispatch action correctly when data fetching success", async () => {
+  it('should dispatch action correctly when data fetching success', async () => {
     // arrange
     // stub
     api.getOwnProfile = () => Promise.resolve(fakeUserResponse);
@@ -48,13 +50,13 @@ describe("asyncPreloadProcess thunk", () => {
     // expect
     expect(dispatch).toHaveBeenCalledWith(showLoading());
     expect(dispatch).toHaveBeenCalledWith(
-      setAuthUserActionCreator(fakeUserResponse)
+      setAuthUserActionCreator(fakeUserResponse),
     );
     expect(dispatch).toHaveBeenCalledWith(setPreloadActionCreator(false));
     expect(dispatch).toHaveBeenCalledWith(hideLoading());
   });
 
-  it("should dispatch action and call alert correctly when data fetching failed", async () => {
+  it('should dispatch action and call alert correctly when data fetching failed', async () => {
     // arrange
     // stub
     api.getOwnProfile = () => Promise.reject(fakeErrorResponse);

@@ -1,13 +1,13 @@
-import { hideLoading, showLoading } from "react-redux-loading-bar";
-import { toast } from "react-toastify";
-import api from "../../utils/api";
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import { toast } from 'react-toastify';
+import api from '../../utils/api';
 
 const ActionType = {
-  RECEIVE_THREAD_DETAIL: "RECEIVE_THREAD_DETAIL",
-  CLEAR_THREAD_DETAIL: "CLEAR_THREAD_DETAIL",
-  TOGGLE_LIKE_THREAD_DETAIL: "TOGGLE_LIKE_THREAD_DETAIL",
-  TOGGLE_DISLIKE_THREAD_DETAIL: "TOGGLE_DISLIKE_THREAD_DETAIL",
-  ADD_COMMENT: "ADD_COMMENT",
+  RECEIVE_THREAD_DETAIL: 'RECEIVE_THREAD_DETAIL',
+  CLEAR_THREAD_DETAIL: 'CLEAR_THREAD_DETAIL',
+  TOGGLE_LIKE_THREAD_DETAIL: 'TOGGLE_LIKE_THREAD_DETAIL',
+  TOGGLE_DISLIKE_THREAD_DETAIL: 'TOGGLE_DISLIKE_THREAD_DETAIL',
+  ADD_COMMENT: 'ADD_COMMENT',
 };
 
 function receiveThreadDetailActionCreator(thread) {
@@ -56,7 +56,7 @@ function asyncAddComment(content) {
   return async (dispatch, getState) => {
     const { auth, thread } = getState();
     if (!auth) {
-      toast.error("Anda harus login dulu", {
+      toast.error('Anda harus login dulu', {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
@@ -76,17 +76,20 @@ function asyncAddComment(content) {
   };
 }
 
-function asyncReceiveThreadDetail(thread) {
+function asyncReceiveThreadDetail(id) {
   return async (dispatch) => {
     dispatch(clearThreadDetailActionCreator());
+    dispatch(showLoading());
 
     try {
-      dispatch(receiveThreadDetailActionCreator(thread));
+      const detailThread = await api.getThreadDetail(id);
+      dispatch(receiveThreadDetailActionCreator(detailThread));
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
       });
     }
+    dispatch(hideLoading());
   };
 }
 
@@ -94,7 +97,7 @@ function asyncToggleLikeThreadDetail(isLiked) {
   return async (dispatch, getState) => {
     const { auth, thread } = getState();
     if (!auth) {
-      toast.error("Anda harus login dulu", {
+      toast.error('Anda harus login dulu', {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
@@ -116,7 +119,7 @@ function asyncToggleDislikeThreadDetail(isDisliked) {
   return async (dispatch, getState) => {
     const { auth, thread } = getState();
     if (!auth) {
-      toast.error("Anda harus login dulu", {
+      toast.error('Anda harus login dulu', {
         position: toast.POSITION.TOP_CENTER,
       });
       return;

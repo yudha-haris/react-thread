@@ -6,21 +6,23 @@
  *  - should dispatch action and call alert correctly when data fetching failed
  */
 
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { hideLoading, showLoading } from "react-redux-loading-bar";
-import api from "../../../utils/api";
-import asyncPopulateThreads from "../../../states/shared/action";
-import { receiveThreadsActionCreator } from "../../../states/threads/action";
-import { receiveUsersActionCreator } from "../../../states/users/action";
+import {
+  afterEach, beforeEach, describe, expect, it, vi,
+} from 'vitest';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import api from '../../../utils/api';
+import asyncPopulateThreads from '../../../states/shared/action';
+import { receiveThreadsActionCreator } from '../../../states/threads/action';
+import { receiveUsersActionCreator } from '../../../states/users/action';
 
 const fakeThreadsResponse = [
   {
-    id: "thread-1",
-    title: "Thread Pertama",
-    body: "Ini adalah thread pertama",
-    category: "General",
-    createdAt: "2021-06-21T07:00:00.000Z",
-    ownerId: "users-1",
+    id: 'thread-1',
+    title: 'Thread Pertama',
+    body: 'Ini adalah thread pertama',
+    category: 'General',
+    createdAt: '2021-06-21T07:00:00.000Z',
+    ownerId: 'users-1',
     upVotesBy: [],
     downVotesBy: [],
     totalComments: 0,
@@ -29,16 +31,16 @@ const fakeThreadsResponse = [
 
 const fakeUsersResponse = [
   {
-    id: "users-1",
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: "https://generated-image-url.jpg",
+    id: 'users-1',
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: 'https://generated-image-url.jpg',
   },
 ];
 
-const fakeErrorResponse = new Error("Ups, something went wrong");
+const fakeErrorResponse = new Error('Ups, something went wrong');
 
-describe("asyncPopulateThreadsAndUsers thunk", () => {
+describe('asyncPopulateThreadsAndUsers thunk', () => {
   beforeEach(() => {
     api.getAllUsersBackup = api.getAllUsers;
     api.getAllThreadBackup = api.getAllThread;
@@ -52,7 +54,7 @@ describe("asyncPopulateThreadsAndUsers thunk", () => {
     delete api.getAllThreadBackup;
   });
 
-  it("should dispatch action correctly when data fetching success", async () => {
+  it('should dispatch action correctly when data fetching success', async () => {
     // arrange
     // stub
     api.getAllUsers = () => Promise.resolve(fakeUsersResponse);
@@ -66,15 +68,15 @@ describe("asyncPopulateThreadsAndUsers thunk", () => {
     // expect
     expect(dispatch).toHaveBeenCalledWith(showLoading());
     expect(dispatch).toHaveBeenCalledWith(
-      receiveThreadsActionCreator(fakeThreadsResponse)
+      receiveThreadsActionCreator(fakeThreadsResponse),
     );
     expect(dispatch).toHaveBeenCalledWith(
-      receiveUsersActionCreator(fakeUsersResponse)
+      receiveUsersActionCreator(fakeUsersResponse),
     );
     expect(dispatch).toHaveBeenCalledWith(hideLoading());
   });
 
-  it("should dispatch action correctly when data fetching failed", async () => {
+  it('should dispatch action correctly when data fetching failed', async () => {
     // arrange
     // stub
     api.getAllUsers = () => Promise.reject(fakeErrorResponse);
