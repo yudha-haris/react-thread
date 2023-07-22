@@ -10,10 +10,7 @@ import {
 import CommentInput from '../../components/CommentInput';
 import CommentList from '../../components/CommentList';
 import ForumDetail from '../../components/ForumDetail';
-import NavigationBar from '../../components/NavigationBar';
-import Loading from '../../components/Loading';
-import { asyncUnsetAuthUser } from '../../states/auth/action';
-import { asyncPreloadProcess } from '../../states/preload/action';
+import MainLayout from '../../components/MainLayout';
 
 export default function Thread() {
   const router = useRouter();
@@ -23,8 +20,9 @@ export default function Thread() {
   const { auth = null, thread } = useSelector((states) => states);
 
   useEffect(() => {
-    dispatch(asyncReceiveThreadDetail(id));
-    dispatch(asyncPreloadProcess());
+    if (id) {
+      dispatch(asyncReceiveThreadDetail(id));
+    }
   }, [id]);
 
   const onLikeThread = (isLiked) => {
@@ -39,48 +37,30 @@ export default function Thread() {
     dispatch(asyncAddComment(content));
   };
 
-  const onSignOut = () => {
-    dispatch(asyncUnsetAuthUser());
-  };
-
   if (!thread) {
-    return null;
+    return (
+      <MainLayout auth={auth !== null}>
+        <div />
+      </MainLayout>
+    );
   }
 
   return (
-    <div className="bg-slate-100 min-h-screen pt-16">
-      <header>
-        <NavigationBar
-          authAction={
-            auth
-              ? onSignOut
-              : () => {
-                router.push('/auth/login');
-              }
-          }
-          onBackHome={() => {
-            router.push('/');
-          }}
-          authType={auth ? 'Logout' : 'Login'}
-        />
-        <Loading />
-      </header>
-      <main>
-        <div className="max-w-2xl mx-auto pb-6">
-          <div className="p-6 bg-white mb-4 rounded-2xl mt-4">
-            <ForumDetail
-              like={onLikeThread}
-              dislike={onDislikeThread}
-              thread={thread}
-              userId={auth ? auth.id : ''}
-            />
-            <div className="mt-6">
-              <CommentInput comment={onAddComment} />
-            </div>
+    <MainLayout auth={auth !== null}>
+      <div className="max-w-2xl mx-auto pb-6">
+        <div className="p-6 bg-white mb-4 rounded-2xl mt-4">
+          <ForumDetail
+            like={onLikeThread}
+            dislike={onDislikeThread}
+            thread={thread}
+            userId={auth ? auth.id : ''}
+          />
+          <div className="mt-6">
+            <CommentInput comment={onAddComment} />
           </div>
-          <CommentList comments={thread.comments} />
         </div>
-      </main>
-    </div>
+        <CommentList comments={thread.comments} />
+      </div>
+    </MainLayout>
   );
 }
